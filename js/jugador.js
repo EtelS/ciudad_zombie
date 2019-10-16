@@ -10,6 +10,38 @@ var Jugador = {
   alto: 30,
   velocidad: 10,
   vidas: 5,
+  andar: function (x, y, tecla) {//aca paso los parametros de donde esta el jugador y el valor de tecla
+    this.x += x;
+    this.y += y;
+    //capturo las teclas y me fijo para donde va y le pongo la imagen correspondiente, el alto y el ancho
+    switch(tecla){
+      case 'izq': 
+        this.sprite = 'imagenes/auto_rojo_izquierda.png';
+        this.alto = 15;
+        this.ancho = 30;
+        break;
+      case 'der':
+        this.sprite = 'imagenes/auto_rojo_derecha.png';
+        this.alto = 15;
+        this.ancho = 30;
+        break;
+      case 'arriba': 
+        this.sprite = 'imagenes/auto_rojo_arriba.png';
+        this.alto = 30;
+        this.ancho = 15;
+        break;
+      case 'abajo':
+        this.sprite = 'imagenes/auto_rojo_abajo.png';
+        this.alto = 30;
+        this.ancho = 15;
+        break;
+    }
+    
+  },
+    perderVidas:function(cantVidas){
+      
+      this.vidas -= cantVidas;
+    },
   // Hay que agregar lo que falte al jugador: movimientos, perdida de vidas,
   // y todo lo que haga falta para que cumpla con sus responsabilidades
 
