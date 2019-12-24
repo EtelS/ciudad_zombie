@@ -140,16 +140,11 @@ Juego.obstaculos = function() {
 };
 
 Juego.comenzar = function() {
-  // Inicializar el canvas del juego
   Dibujante.inicializarCanvas(this.anchoCanvas, this.altoCanvas);
-  /* El bucle principal del juego se llamara continuamente para actualizar
-  los movimientos y el pintado de la pantalla. Sera el encargado de calcular los
-  ataques, colisiones, etc*/
   this.buclePrincipal();
 };
 
 Juego.buclePrincipal = function() {
-
   // Con update se actualiza la logica del juego, tanto ataques como movimientos
   this.update();
   // Funcion que dibuja por cada fotograma a los objetos en pantalla.
@@ -185,8 +180,6 @@ Juego.capturarMovimiento = function(tecla) {
 
   // Si se puede mover hacia esa posicion hay que hacer efectivo este movimiento
   if (this.chequearColisiones(movX + this.jugador.x, movY + this.jugador.y)) {
-    /* Aca tiene que estar la logica para mover al jugador invocando alguno
-    de sus metodos  */
       Jugador.andar(movX,movY,tecla);
   }
 };
@@ -199,22 +192,15 @@ Juego.dibujar = function() {
   if (this.terminoJuego() || this.ganoJuego()){
     return
   }
-
-  /* Aca hay que agregar la logica para poder dibujar al jugador principal
-  utilizando al dibujante y los metodos que nos brinda.
-  "Dibujante dibuja al jugador" */
   Dibujante.dibujarEntidad(Jugador);//dibuja el jugador en pantalla
-
   // Se recorren los obstaculos de la carretera pintandolos
   this.obstaculosCarretera.forEach(function(obstaculo) {
     Dibujante.dibujarEntidad(obstaculo);
   });
-
   // Se recorren los enemigos pintandolos
   this.enemigos.forEach(function(enemigo) {
     Dibujante.dibujarEntidad(enemigo);
   });
-
   // El dibujante dibuja las vidas del jugador
   var tamanio = this.anchoCanvas / this.vidasInicial;
   Dibujante.dibujarRectangulo('white', 0, 0, this.anchoCanvas, 8);
@@ -223,13 +209,7 @@ Juego.dibujar = function() {
     Dibujante.dibujarRectangulo('red', x, 0, tamanio, 8);
   }
   Dibujante.dibujarRectangulo('violet',760,520,126,25 );//linea de llegada
-
 };
-
-
-/* Recorre los enemigos haciendo que se muevan. De la misma forma que hicimos
-un recorrido por los enemigos para dibujarlos en pantalla ahora habra que hacer
-una funcionalidad similar pero para que se muevan.*/
 Juego.moverEnemigos = function() {
   this.enemigos.forEach(function(enemigo) {
     enemigo.mover(enemigo);
@@ -251,24 +231,16 @@ Juego.calcularAtaques = function() {
     }
   }, this);
 };
-
-
-
-/* Aca se chequea si el jugador se peude mover a la posicion destino.
- Es decir, que no haya obstaculos que se interpongan. De ser asi, no podra moverse */
 Juego.chequearColisiones = function(x, y) {
   var puedeMoverse = true
   this.obstaculos().forEach(function(obstaculo) {
     if (this.intersecan(obstaculo, this.jugador, x, y)) {
-
       obstaculo.choca_jugador(this.jugador);
-
       puedeMoverse = false
     }
   }, this)
   return puedeMoverse
 };
-
 /* Este metodo chequea si los elementos 1 y 2 si cruzan en x e y
  x e y representan la coordenada a la cual se quiere mover el elemento2*/
 Juego.intersecan = function(elemento1, elemento2, x, y) {
@@ -280,7 +252,6 @@ Juego.intersecan = function(elemento1, elemento2, x, y) {
   var derecha2 = izquierda2 + elemento2.ancho
   var techo2 = y
   var piso2 = y + elemento2.alto
-
   return ((piso1 >= techo2) && (techo1 <= piso2) &&
     (derecha1 >= izquierda2) && (izquierda1 <= derecha2))
 };
@@ -291,7 +262,6 @@ Juego.dibujarFondo = function() {
     Dibujante.dibujarImagen('imagenes/mensaje_gameover.png', 0, 5, this.anchoCanvas, this.altoCanvas);
     document.getElementById('reiniciar').style.visibility = 'visible';
   }
-
   // Si se gano el juego hay que mostrar el mensaje de ganoJuego de fondo
   else if (this.ganoJuego()) {
     Dibujante.dibujarImagen('imagenes/Splash.png', 190, 113, 500, 203);
@@ -313,7 +283,7 @@ Juego.ganoJuego = function() {
 Juego.iniciarRecursos();
 
 // Activa las lecturas del teclado al presionar teclas
-// Documentacion: https://developer.mozilla.org/es/docs/Web/API/EventTarget/addEventListener
+
 document.addEventListener('keydown', function(e) {
   var allowedKeys = {
     37: 'izq',
